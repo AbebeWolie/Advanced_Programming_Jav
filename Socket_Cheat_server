@@ -1,0 +1,40 @@
+package chatserver;
+import java.io.*;
+import java.net.*;
+
+public class Chatserver {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        try{
+            ServerSocket server= new ServerSocket(27);
+            System.out.println("listen");
+            Socket connection=server.accept();
+            System.out.println("connection created");
+            BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            PrintWriter out= new PrintWriter(connection.getOutputStream(), true);
+            String send, recieve;
+            do{
+              recieve=in.readLine();
+                System.out.println("client says"+recieve);
+              if(recieve.equals("stop"))
+                  break;
+                System.out.println("server says");
+              send=br.readLine();
+               out.println(send);
+            }
+            while(true);
+          br.close();
+          in.close();
+          out.close();
+          connection.close();
+            }
+        catch(Exception e)  {       
+          e.printStackTrace();
+      }
+    }
+    
+}

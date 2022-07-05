@@ -1,0 +1,36 @@
+package chatclient;
+import java.io.*;
+import java.net.*;
+
+public class Chatclient {
+
+    public static void main(String[] args) {
+      try{
+        Socket connection=new Socket("10.161.68.159",27);
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        PrintWriter out= new PrintWriter(connection.getOutputStream(), true);
+        String msg, resp;
+          System.out.println("when you want to close chatting write stop");
+        do{
+            System.out.println("client says");
+            msg=br.readLine();
+            out.println(msg);
+            if(msg.equals("stop"))
+                break;
+            resp=in.readLine();
+            System.out.println("server says" +resp);
+          }
+        while(true);
+        br.close();
+        in.close();
+        out.close();
+        connection.close();
+      }
+      catch(Exception e)
+      { 
+          e.printStackTrace();
+      }
+    }
+    
+}

@@ -1,0 +1,42 @@
+package udpserver;
+
+import java.io.*;
+import java.net.*;
+
+public class Udpserver {
+
+    public static void main(String[] args) {
+        
+        try {
+            DatagramSocket ds = new DatagramSocket(13);
+            
+            byte b[] = new byte[1024];
+            DatagramPacket dp = new DatagramPacket(b, b.length);
+            
+            ds.receive(dp);
+
+
+            String str = new String(dp.getData(), 0, dp.getLength());
+            System.out.println("Client Number: " + str);
+            int n = Integer.parseInt(str);
+            String parity;
+            
+            if(n%2==0){
+                parity = "even";
+            }
+            else{
+                parity = "odd";
+            }
+            
+            byte b1[] = new byte[1024];
+            b1 = parity.getBytes();
+            DatagramPacket dp1 = new DatagramPacket(b1, b1.length, InetAddress.getLocalHost(), 12);
+            
+            ds.send(dp1);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+}
